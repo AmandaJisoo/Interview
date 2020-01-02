@@ -12,7 +12,7 @@ class Solution(object):
         que = []
         cur = 0
 
-        # use min heap to remove biggest duration
+        # use min(-max will be poped) heap to remove biggest duration
         for duration, due in courses:
             heapq.heappush(que, -duration)
             cur += duration
