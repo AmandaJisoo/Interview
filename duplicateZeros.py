@@ -21,6 +21,10 @@ class Solution(object):
         #start from the back of the "back" of the index
         #start moving back
         #if duplicate then copy two space
+        #If the duplicate is 0, you know that you have inserted
+        #the items in the back, so you do not leave
+        #other prev items where they are
+        #bc it already has been taken care of
         for i in range(lastIndex, -1, -1):
             if arr[i] == 0:
                 arr[i + duplicate]  = 0
