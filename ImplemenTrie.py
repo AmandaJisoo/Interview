@@ -36,7 +36,7 @@ class Trie:
             #last char index
             if i == len(word):
                 if not node.isEnd:
-                    return Fa햣se
+                    return False
                 node.isEnd = False
                 return len(node.childern) == 0
             #word is not in the trie
