@@ -1,0 +1,46 @@
+#1
+SELECT U.name AS city
+  FROM geo.world as X, X.mondial.country as Y, Y.province as Z,
+       CASE WHEN is_array(Z.city)
+             THEN Z.city
+             ELSE [Z.city] END as U
+ WHERE Y.name = 'Peru'
+ ORDER BY U.name;
+
+ #2
+ SELECT Y.name AS name, Y.population AS population, sum(religions) as num_religions
+  FROM geo.world AS X, X.mondial.country AS Y
+   LET religions = (CASE WHEN Y.religions IS MISSING
+                      THEN 0
+                      WHEN is_array(Y.religions)
+                      THEN ARRAY_COUNT(Y.religions)
+                      ELSE 1 END)
+ GROUP BY Y.name, Y.population
+ ORDER BY Y.name ASC;
+#3
+SELECT c.`#text` AS religion, COUNT(Y.name) AS num_countries
+FROM geo.world AS X, X.mondial.country AS Y,
+        (CASE WHEN is_array(Y.religions)
+                       THEN Y.religions
+                       ELSE [Y.religions] END) AS c
+WHERE c.`#text`IS NOT NULL
+GROUP BY c.`#text`
+ORDER BY COUNT(Y.name) DESC;
+#4
+SELECT c.`#text` AS ethnic_group, COUNT(Y.name) AS num_countries, SUM(float(c.`-percentage`) / 100.0 * int(Y.population)) AS total_population
+FROM geo.world AS X, X.mondial.country AS Y,
+        (CASE WHEN is_array(Y.ethnicgroups)
+                       THEN Y.ethnicgroups
+                       ELSE [Y.ethnicgroups] END) AS c
+WHERE c.`#text`IS NOT NULL
+GROUP BY c.`#text`
+ORDER BY total_population DESC;
+/*
+SELECT name as ethnic_group, count(*) as num_countries,
+SUM(float(ethnic.`-percentage`) /100.0 * float(y.population)) as total_population
+
+FROM hw5.world x,  x.mondial.country y,
+(CASE WHEN is_array(y.ethnicgroups) THEN y.ethnicgroups
+WHEN is_missing(y.ethnicgroups) THEN [] ELSE [y.ethnicgroups] END) ethnic
+GROUP BY ethnic.`#text` as name;
+*/ß
