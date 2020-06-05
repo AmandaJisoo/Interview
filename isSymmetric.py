@@ -6,11 +6,6 @@
 #         self.right = right
 class Solution(object):
     def isSymmetric(self, root):
-        """
-        :type root: TreeNode
-        :rtype: bool
-        """
-    def isSymmetric(self, root):
         if not root:
             return True
         return self.dfs(root.left, root.right)
@@ -18,4 +13,4 @@ class Solution(object):
     def dfs(self, l, r):
         if l and r:
             return l.val == r.val and self.dfs(l.left, r.right) and self.dfs(l.right, r.left)
-        return l == r
+        return l == None and r == None
